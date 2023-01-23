@@ -120,6 +120,8 @@ Directly after the eight items has been added the size will be 8.
 
 When the clean-up job is run (which is once every second) it will delete those who is set to expire first.
 
-So the second output will say that the size is 5 which is correct since the clecn-up job has been run.
+So the second output will say that the size is 5 which is correct since the clean-up job has been run.
 
 The last output says that the size is 1 since the rest of the items added had a shorter timeout and has been deleted by the clean-up job.
+
+Since there is an active interval handler in this module node will just keep running. So by calling *cache.kill()* you make node release its hooks and the program terminates.
