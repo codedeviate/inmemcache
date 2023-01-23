@@ -9,7 +9,7 @@ cache.set("test", "key4", "value4", 5000)
 cache.set("test", "key5", "value5", 5000)
 cache.set("test", "key6", "value6", 5000)
 cache.set("test", "key7", "value7", 5000)
-cache.set("test", "key8", "value8", 6000)
+cache.set("test", "key8", "value8", 10000)
 
 console.log("Size is", cache.size())
 
@@ -19,8 +19,8 @@ setTimeout(() => {
 
 setTimeout(() => {
     console.log("Size is", cache.size())
-}, 5500)
+}, 7500)
 
 setTimeout(() => {
     cache.kill()
-}, 7500)
+}, 12500)

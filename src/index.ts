@@ -9,14 +9,14 @@ const NumberSize = 8
 
 export class InMemCache {
     private cache: Map<string, Map<string, any>> = new Map()
-    private intervalHandler: number = 0
+    private intervalHandler: NodeJS.Timeout | null = null
     private emitter: EventEmitter = new EventEmitter()
 
-    constructor(maxCount: number = 100) {
-        this.init(maxCount)
+    constructor(maxCount: number = 100, cleanUpInterval: number = 1000) {
+        this.init(maxCount, cleanUpInterval)
     }
 
-    public init(maxCount: number = 100): void {
+    public init(maxCount: number = 100, cleanUpInterval: number = 1000): void {
         if(!this.intervalHandler) {
             this.intervalHandler = setInterval(() => {
                 const now = Date.now()
@@ -41,7 +41,7 @@ export class InMemCache {
                         }
                     }
                 })
-            }, 1000)
+            }, cleanUpInterval)
             this.emitter.emit("status", "init")
         } else {
             this.emitter.emit("status", "reinit")
@@ -50,8 +50,8 @@ export class InMemCache {
 
     public kill(): void {
         this.emitter.emit("status", "kill")
-        clearInterval(this.intervalHandler)
-        this.intervalHandler = 0
+        clearInterval(this.intervalHandler as NodeJS.Timeout)
+        this.intervalHandler = null
     }
 
     public status(): string {
@@ -63,7 +63,7 @@ export class InMemCache {
         const items = this.cache.get(namespace)
         if (!items) {
             // Cache miss - didn't exist
-            return null
+            return undefined
         }
         const item = items.get(key)
         if (item && item.expires >= now) {
@@ -74,7 +74,7 @@ export class InMemCache {
             this.emitter.emit("delete", namespace, key)
         }
         this.cache.delete(key)
-        return null
+        return undefined
     }
     
     public set(namespace: string, key: string, value: any, timeout: number = 300000): any {
@@ -133,30 +133,6 @@ export class InMemCache {
         this.cache.forEach((items) => {
             total += items.size
         })
-        return total
-    }
-
-    public memoryUsage(namespace?: string): number {
-        let total = 0
-        if (namespace) {
-            total += namespace.length
-            const items = this.cache.get(namespace)
-            if (items) {
-                items.forEach((item, key) => {
-                    total += key.length
-                    total += item.value.length
-                    total += NumberSize
-                })
-            }
-        } else {
-            this.cache.forEach((items) => {
-                items.forEach((item, key) => {
-                    total += key.length
-                    total += item.value.length
-                    total += NumberSize
-                })
-            })
-        }
         return total
     }
 

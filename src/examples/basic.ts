@@ -47,7 +47,7 @@ setTimeout(() => {
 }, 2000)
 
 setTimeout(() => {
-    console.log(cache.size(), cache.memoryUsage())
+    console.log("Items in cache", cache.size())
     console.log("Cache is", cache.status())
 }, 5100)
 
