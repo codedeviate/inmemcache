@@ -77,7 +77,7 @@ export class InMemCache {
         return null
     }
     
-    public set(namespace: string, key: string, value: any, timeout: number = 300): any {
+    public set(namespace: string, key: string, value: any, timeout: number = 300000): any {
         const expires = Date.now() + timeout
         let items = this.cache.get(namespace)
         if(items === undefined) {
