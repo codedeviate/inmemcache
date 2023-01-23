@@ -40,7 +40,7 @@ The number of elements stored.
 If a namespace is given then the function will return the number of elements stored in that namespace otherwise it will return the total amount of elements.
 
 ### memoryUsage(namespace?: string): number
-** EXPERIMENTAL **
+***EXPERIMENTAL FUNCTION***
 
 This function will return an approximation if the memory used to store this data.
 
