@@ -1,0 +1,29 @@
+{
+  "name": "inmemcache",
+  "version": "1.0.0",
+  "description": "inmemcache is a memory based local cache",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "example-basic": "npm run build && node ./dist/examples/basic.js",
+    "example-simple": "npm run build && node ./dist/examples/simple.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codedeviate/inmemcache.git"
+  },
+  "keywords": [
+    "cache",
+    "memory"
+  ],
+  "author": "Thomas Björk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codedeviate/inmemcache/issues"
+  },
+  "homepage": "https://github.com/codedeviate/inmemcache#readme",
+  "devDependencies": {
+    "@types/events": "^3.0.0"
+  }
+}
