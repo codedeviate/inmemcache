@@ -24,12 +24,16 @@ The following events will be emitted:
 * clear-all
 
 ### once(event: string, listener: (...args: any[]) => void): this
+Add a one-time listener that will be triggered once.
 
 ### off(event: string, listener: (...args: any[]) => void): this
+Remove an event listener.
 
 ### removeListener(event: string, listener: (...args: any[]) => void): this
+Remove an event listener.
 
 ### removeAllListeners(event?: string): this
+Remove all event listener. If an event is given then only listener for that event will be removed.
 
 ### emit(event: string, ...args: any[]): boolean
 Force an event to be emitted.
