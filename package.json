@@ -1,6 +1,6 @@
 {
-  "name": "inmemcache",
-  "version": "1.0.0",
+  "name": "@codedv8/inmemcache",
+  "version": "1.0.1",
   "description": "inmemcache is a memory based local cache",
   "main": "dist/index.js",
   "scripts": {
