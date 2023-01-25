@@ -70,6 +70,11 @@ Stops the interval handler that manages overflows and autmatic deletion of timed
 ### status(): string
 Returns "alive" if the interval handler is active. Otherwise it returnes "dead".
 
+### calcTimeout(days: number = 0, hours: number = 0, minutes: number = 0, minutes: number = 0): number
+Will calculate the number of milliseconds there is in the number of days, hours, minutes and seconds given as arguments.
+
+The default values for all arguments is 0.
+
 ## Usage
 
 ### Simple example
@@ -79,14 +84,14 @@ import { InMemCache } from '..'
 
 const cache = new InMemCache(5)
 
-cache.set("test", "key1", "value1", 5000)
-cache.set("test", "key2", "value2", 5000)
-cache.set("test", "key3", "value3", 5000)
-cache.set("test", "key4", "value4", 5000)
-cache.set("test", "key5", "value5", 5000)
-cache.set("test", "key6", "value6", 5000)
-cache.set("test", "key7", "value7", 5000)
-cache.set("test", "key8", "value8", 10000)
+cache.set("test", "key1", "value1", InMemCache.timeout5s)
+cache.set("test", "key2", "value2", InMemCache.timeout5s)
+cache.set("test", "key3", "value3", InMemCache.timeout5s)
+cache.set("test", "key4", "value4", InMemCache.timeout5s)
+cache.set("test", "key5", "value5", InMemCache.timeout5s)
+cache.set("test", "key6", "value6", InMemCache.timeout5s)
+cache.set("test", "key7", "value7", InMemCache.timeout5s)
+cache.set("test", "key8", "value8", InMemCache.timeout10s)
 
 console.log("Size is", cache.size())
 

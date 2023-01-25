@@ -179,10 +179,10 @@ describe('InMemCache', async () => {
 
     it("should calculate timeouts", async () => {
         const cache = new InMemCache(5, 2000)
-        chai.expect(cache.calcTimeout(1, 1, 1, 1)).to.equal(cache.timeout1D + cache.timeout1h + cache.timeout1m + cache.timeout1s)
-        chai.expect(cache.calcTimeout(1, 1, 1)).to.equal(cache.timeout1D + cache.timeout1h + cache.timeout1m)
-        chai.expect(cache.calcTimeout(1, 1)).to.equal(cache.timeout1D + cache.timeout1h)
-        chai.expect(cache.calcTimeout(1)).to.equal(cache.timeout1D)
+        chai.expect(cache.calcTimeout(1, 1, 1, 1)).to.equal(InMemCache.timeout1D + InMemCache.timeout1h + InMemCache.timeout1m + InMemCache.timeout1s)
+        chai.expect(cache.calcTimeout(1, 1, 1)).to.equal(InMemCache.timeout1D + InMemCache.timeout1h + InMemCache.timeout1m)
+        chai.expect(cache.calcTimeout(1, 1)).to.equal(InMemCache.timeout1D + InMemCache.timeout1h)
+        chai.expect(cache.calcTimeout(1)).to.equal(InMemCache.timeout1D)
         chai.expect(cache.calcTimeout()).to.equal(0)
     })
     
