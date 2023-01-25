@@ -75,6 +75,37 @@ Will calculate the number of milliseconds there is in the number of days, hours,
 
 The default values for all arguments is 0.
 
+## Timeout static constants
+There are a number of static constants declared for convinience. If the value you need isn't there then there is a function called calcTimeout where you can create your own. An alternative is to calculate the number of microseconds manually.
+
+* timeout1Y - One year
+* timeout6M - Six months
+* timeout3M - Three months
+* timeout2M - Two months
+* timeout1M - One month
+* timeout1W - One week
+* timeout3D - Three days
+* timeout2D - Two days
+* timeout1D - One day
+* timeout24h - Twentyfour hours
+* timeout12h - Twelve hours
+* timeout6h - Six hours
+* timeout3h - Three hours
+* timeout2h - Two hours
+* timeout1h - One hour
+* timeout30m - Thirty minutes
+* timeout15m - Fifteen minutes
+* timeout10m - Ten minutes
+* timeout5m - Five minutes
+* timeout2m - Two minutes
+* timeout1m - One minute
+* timeout30s - Thirty seconds
+* timeout15s - Fifteen seconds
+* timeout10s - Ten seconds
+* timeout5s - Five seconds
+* timeout2s - Two seconds
+* timeout1s - One second
+
 ## Usage
 
 ### Simple example
