@@ -11,6 +11,33 @@ export class InMemCache {
     private cache: Map<string, Map<string, any>> = new Map()
     private intervalHandler: NodeJS.Timeout | null = null
     private emitter: EventEmitter = new EventEmitter()
+    public timeout1Y = 31536000000
+    public timeout6M = 15768000000
+    public timeout3M = 7884000000
+    public timeout2M = 5256000000
+    public timeout1M = 2628000000
+    public timeout1W = 604800000
+    public timeout3D = 259200000
+    public timeout2D = 172800000
+    public timeout1D = 86400000
+    public timeout24h = 86400000
+    public timeout12h = 43200000
+    public timeout6h = 21600000
+    public timeout3h = 10800000
+    public timeout2h = 7200000
+    public timeout1h = 3600000
+    public timeout30m = 1800000
+    public timeout15m = 900000
+    public timeout10m = 600000
+    public timeout5m = 300000
+    public timeout2m = 120000
+    public timeout1m = 60000
+    public timeout30s = 30000
+    public timeout15s = 15000
+    public timeout10s = 10000
+    public timeout5s = 5000
+    public timeout2s = 2000
+    public timeout1s = 1000
 
     constructor(maxCount: number = 100, cleanUpInterval: number = 1000) {
         this.init(maxCount, cleanUpInterval)
@@ -161,6 +188,10 @@ export class InMemCache {
     public clearAll(): void {
         this.emit("clear-all")
         this.cache.clear()
+    }
+
+    public calcTimeout(days: number = 0, hours: number = 0, minutes: number = 0, seconds: number = 0): number {
+        return days * this.timeout1D + hours * this.timeout1h + minutes * this.timeout1m + seconds * this.timeout1s
     }
 
 }

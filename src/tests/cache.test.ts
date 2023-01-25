@@ -176,5 +176,14 @@ describe('InMemCache', async () => {
         chai.expect(cache.size('test1')).to.equal(0)
         chai.expect(cache.size('test2')).to.equal(0)
     })
+
+    it("should calculate timeouts", async () => {
+        const cache = new InMemCache(5, 2000)
+        chai.expect(cache.calcTimeout(1, 1, 1, 1)).to.equal(cache.timeout1D + cache.timeout1h + cache.timeout1m + cache.timeout1s)
+        chai.expect(cache.calcTimeout(1, 1, 1)).to.equal(cache.timeout1D + cache.timeout1h + cache.timeout1m)
+        chai.expect(cache.calcTimeout(1, 1)).to.equal(cache.timeout1D + cache.timeout1h)
+        chai.expect(cache.calcTimeout(1)).to.equal(cache.timeout1D)
+        chai.expect(cache.calcTimeout()).to.equal(0)
+    })
     
 })
