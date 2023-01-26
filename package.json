@@ -1,12 +1,13 @@
 {
   "name": "@codedv8/inmemcache",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "inmemcache is a memory based local cache",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "example-basic": "npm run build && node ./dist/examples/basic.js",
     "example-simple": "npm run build && node ./dist/examples/simple.js",
+    "publish": "npm run build && npm publish",
     "test": "mocha -r ts-node/register --recursive  './src/tests/*.test.ts' --timeout 15000 --exit",
     "test:coverage": "nyc npm test"
   },

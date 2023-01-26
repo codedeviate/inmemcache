@@ -3,6 +3,8 @@ InMemCache is a memory based local cache.
 
 Its primary usage is for simple storage of key/value-data whem there is no Redis, or alike, available.
 
+Every namespace can have a separate default timeout and a limit on how many items that can be stored.
+
 ## Functions
 
 ### get(namespace: string, key: string): any
@@ -10,6 +12,21 @@ Get a key from a namespace. If the key isn't found in this namespace this functi
 
 ### set(namespace: string, key: string, value: any, timeout: number = 300000): any
 Set a value for a key in a namespace. This value will also have a timeout set. The default value for the timeout is 300 seconds (timeout is given i milliseconds).
+
+### setNamespaceMaxCount(namespace: string, maxCount: number): void
+Set the max number of cached items in a specific namespace
+
+### setNamespaceTimeout(namespace: string, timeout: number): void
+Set the timeout for a namespace
+
+### getNamespaceMaxCount(namespace: string): number
+Get the max number of cached items in a specific namespace
+
+### getNamespaceTimeout(namespace: string): number
+Get the timeout for a namespace
+
+### getNamespaceKeys(): string[]
+Get all namespaces currently in the cache
 
 ### on(event: string, listener: (...args: any[]) => void): this
 Jack in on the internal eventhandler.

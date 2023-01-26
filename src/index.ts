@@ -5,12 +5,15 @@ type CacheItem = {
     expires: number
 }
 
-const NumberSize = 8
-
 export class InMemCache {
     private cache: Map<string, Map<string, any>> = new Map()
     private intervalHandler: NodeJS.Timeout | null = null
     private emitter: EventEmitter = new EventEmitter()
+    private timeouts: Map<string, number> = new Map()
+    private defaultTimeout: number
+    private maxCounts: Map<string, number> = new Map()
+    private defaultMaxCount: number = 100
+
     public static timeout1Y = 31536000000
     public static timeout6M = 15768000000
     public static timeout3M = 7884000000
@@ -39,11 +42,13 @@ export class InMemCache {
     public static timeout2s = 2000
     public static timeout1s = 1000
 
-    constructor(maxCount: number = 100, cleanUpInterval: number = 1000) {
+    constructor(maxCount: number = 0, cleanUpInterval: number = 1000, defaultTimeout: number = 300000) {
+        this.defaultMaxCount = maxCount || this.defaultMaxCount
+        this.defaultTimeout = defaultTimeout
         this.init(maxCount, cleanUpInterval)
     }
 
-    public init(maxCount: number = 100, cleanUpInterval: number = 1000): void {
+    public init(maxCount: number = 0, cleanUpInterval: number = 1000): void {
         if(!this.intervalHandler) {
             this.intervalHandler = setInterval(() => {
                 const now = Date.now()
@@ -60,9 +65,16 @@ export class InMemCache {
                     if (items.size === 0) {
                         this.cache.delete(namespace)
                     }
-                    if (items.size > maxCount) {
+                    let activeMaxCount = this.maxCounts.get(namespace)
+                    if(!activeMaxCount) {
+                        activeMaxCount = maxCount
+                    }
+                    if(!activeMaxCount) {
+                        activeMaxCount = this.defaultMaxCount
+                    }
+                    if (items.size > activeMaxCount) {
                         const sorted = [...itemAge.entries()].sort((a, b) => a[1] - b[1])
-                        for (let i = 0; i < sorted.length - maxCount; i++) {
+                        for (let i = 0; i < sorted.length - activeMaxCount; i++) {
                             items.delete(sorted[i][0])
                             this.emitter.emit("overflow", namespace, sorted[i][0])
                         }
@@ -104,8 +116,8 @@ export class InMemCache {
         return undefined
     }
     
-    public set(namespace: string, key: string, value: any, timeout: number = 300000): any {
-        const expires = Date.now() + timeout
+    public set(namespace: string, key: string, value: any, timeout: number = 0): any {
+        const expires = Date.now() + (timeout || this.timeouts.get(namespace) || this.defaultTimeout)
         let items = this.cache.get(namespace)
         if(items === undefined) {
             this.cache.set(namespace, new Map())
@@ -117,6 +129,26 @@ export class InMemCache {
         })
         this.emitter.emit("set", namespace, key, value)
         return value
+    }
+
+    public setNamespaceMaxCount(namespace: string, maxCount: number): void {
+        this.maxCounts.set(namespace, maxCount)
+    }
+
+    public setNamespaceTimeout(namespace: string, timeout: number): void {
+        this.timeouts.set(namespace, timeout)
+    }
+
+    public getNamespaceMaxCount(namespace: string): number {
+        return this.maxCounts.get(namespace) || this.defaultMaxCount
+    }
+
+    public getNamespaceTimeout(namespace: string): number {
+        return this.timeouts.get(namespace) || this.defaultTimeout
+    }
+    
+    public getNamespaceKeys(): string[] {
+        return [...this.cache.keys()]
     }
 
     public on(event: string, listener: (...args: any[]) => void): this {
